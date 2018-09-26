@@ -6,7 +6,7 @@
 #    By: rmdaba <rmdaba@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/21 22:58:58 by rmdaba            #+#    #+#              #
-#    Updated: 2018/08/28 09:05:12 by rmdaba           ###   ########.fr        #
+#    Updated: 2018/09/22 21:23:51 by rmdaba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,8 @@ FILES =	buffer.c ft_arrsize.c ft_atoi.c \
 		ft_strnequ.c ft_strnew.c ft_strnstr.c ft_strpbrk.c ft_strrchr.c \
 		ft_strsplit.c ft_strspn.c ft_strstr.c ft_strsub.c ft_strtok.c \
 		ft_strtrim.c ft_tolower.c ft_toupper.c ft_type.c get_next_line.c \
-		ft_lstnewnode.c ft_lstpushfront.c
+		ft_lstnewnode.c ft_lstpushfront.c ft_dlst_push_back.c \
+		ft_dlst_new_node.c ft_freearray.c
 
 SRC = $(addprefix srcs/, $(FILES))
 

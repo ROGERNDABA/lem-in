@@ -6,7 +6,7 @@
 /*   By: rmdaba <rmdaba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 13:48:59 by rmdaba            #+#    #+#             */
-/*   Updated: 2018/08/28 09:07:19 by rmdaba           ###   ########.fr       */
+/*   Updated: 2018/09/22 21:23:27 by rmdaba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ char				*ft_itoa_base(int val, int base);
 char				*ft_strndup(const char *s, size_t n);
 char				*ft_strmdup(const char *a, size_t n);
 size_t				ft_arrsize(char **arr);
+void				ft_freearray(char ***array);
 
 /*
 ** MEMORY FUNCTIONS
@@ -178,7 +179,7 @@ void				ft_lstpushfront(t_list **begin_list, void *data);
 typedef struct		s_dlist
 {
 	char			*data;
-	size_t			data_size;
+	int				data_size;
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
 }					t_dlist;
@@ -191,6 +192,9 @@ void				ft_dlstaddback(t_dlist **head, t_dlist *new);
 void				ft_dlstremoveif(t_dlist **head, int cmp());
 void				ft_dlstremovenode(t_dlist **head);
 size_t				ft_dlstsize(t_dlist *lst);
+
+t_dlist				*ft_dlst_new_node(char *data);
+void				ft_dlst_push_back(t_dlist **list, char *value);
 
 /*
 ** GET FUNCTIONS

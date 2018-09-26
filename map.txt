@@ -1,24 +1,55 @@
-5
+##COMMAND
+#lol
+12
+##COMMAND
+#lol
+A 1 1
+##COMMAND
+#lol
+B 2 2
+##COMMAND
+#lol
 ##start
-1 23 3
-2 16 7
-3 16 3
-4 16 5
-5 9 3
-6 1 5
-7 4 8
+##COMMAND
+#lol
+START 3 3
+##COMMAND
+#lol
+V 4 4
+##COMMAND
+#lol
+C 7 7
 ##end
-0 9 5
-0-4
-0-6
-1-3
-4-3
-5-2
-3-5
-#another comment
-4-2
-2-1
-7-6
-7-2
-7-4
-6-5
+END 5 5 
+##COMMAND
+F 9 9
+#lol
+D 6 6
+##COMMAND
+E 8 8
+#lol
+START-A
+##COMMAND
+#lol
+END-D
+##COMMAND
+D-C
+#lol
+##COMMAND
+#lol
+##COMMAND
+#lol
+C-B
+##COMMAND
+#lol
+##COMMAND
+#lol
+A-C
+##COMMAND
+#lol
+A-B
+START-E
+##COMMAND
+E-F
+#lol
+B-D

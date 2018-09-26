@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_freearray.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmdaba <rmdaba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/06 16:57:21 by rmdaba            #+#    #+#             */
-/*   Updated: 2018/08/24 14:25:06 by rmdaba           ###   ########.fr       */
+/*   Created: 2018/09/22 21:22:48 by rmdaba            #+#    #+#             */
+/*   Updated: 2018/09/22 21:22:58 by rmdaba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft.h"
-# include <fcntl.h>
-
-# define BUFF_SIZE 50
-
-int				get_next_line(const int fd, char **line);
-
-typedef struct	s_gnl
+void	ft_freearray(char ***array)
 {
-	int				fd;
-	struct s_gnl	*next;
-	char			*data;
-}				t_gnl;
+	int i;
 
-#endif
+	i = 0;
+	while ((*array)[i] != NULL)
+	{
+		free((*array)[i]);
+		i++;
+	}
+	free(*array);
+}

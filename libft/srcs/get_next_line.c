@@ -6,76 +6,100 @@
 /*   By: rmdaba <rmdaba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 16:57:17 by rmdaba            #+#    #+#             */
-/*   Updated: 2018/08/19 05:44:03 by rmdaba           ###   ########.fr       */
+/*   Updated: 2018/08/24 14:28:01 by rmdaba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#define MAX_SIZE_FD 100
 
-char			*ft_stock_the_new_line(char *str)
+static t_gnl	*find_fd(int fd, t_gnl **lst)
 {
-	int			i;
-	int			len;
-	char		*new;
+	t_gnl *data;
 
-	i = 0;
-	len = 0;
-	while (str[len++])
-		;
-	if (!(new = (char *)malloc(sizeof(*new) * len + 1)))
-		return (NULL);
-	while (i < len && str[i] != '\n')
+	data = *lst;
+	while (data)
 	{
-		new[i] = str[i];
-		i++;
+		if (data->fd == fd)
+		{
+			if (!(data->data))
+				data->data = ft_strnew(0);
+			return (data);
+		}
+		data = data->next;
 	}
-	new[i] = '\0';
-	return (new);
+	if (!(data = malloc(sizeof(*data))))
+		return (NULL);
+	data->fd = fd;
+	data->data = ft_strnew(0);
+	data->next = *lst;
+	*lst = data;
+	return (data);
 }
 
-static char		*ft_clean_new(char *str)
+static int		fd_read_in(int fd, t_gnl *lst)
 {
-	char		*new;
-	int			i;
+	char	str[BUFF_SIZE + 1];
+	char	*temp;
+	int		ret;
 
-	i = 0;
-	while (str[i] != '\n' && str[i])
-		i++;
-	if ((str[i] && !str[i + 1]) || !str[i])
+	while ((ret = read(fd, str, BUFF_SIZE)) > 0)
 	{
-		ft_strdel(&str);
-		return (NULL);
+		str[ret] = '\0';
+		temp = lst->data;
+		if (!(lst->data = ft_strjoin(lst->data, str)))
+			return (-1);
+		ft_strdel(&temp);
+		if (ft_strchr(lst->data, '\n'))
+			break ;
 	}
-	new = ft_strdup(str + i + 1);
-	ft_strdel(&str);
-	return (new);
+	if (ret < 0)
+		return (-1);
+	if (ft_strlen(lst->data) == 0)
+		return (0);
+	return (1);
+}
+
+static int		populate_line(t_gnl *current, char **line)
+{
+	char	*tmp;
+	char	*ptr;
+
+	if (*(current->data))
+	{
+		if (!(ptr = ft_strchr(current->data, '\n')))
+		{
+			*line = current->data;
+			current->data = NULL;
+		}
+		else
+		{
+			*line = ft_strnew(ptr - current->data);
+			ft_memcpy(*line, current->data, ptr - current->data);
+			tmp = current->data;
+			current->data = ft_strdup(++ptr);
+			ft_strdel(&tmp);
+		}
+		return (1);
+	}
+	return (0);
 }
 
 int				get_next_line(const int fd, char **line)
 {
-	char		buff[BUFF_SIZE + 1];
-	int			ret;
-	static char	*new;
+	static	t_gnl	*data;
+	t_gnl			*current;
+	int				ans;
 
-	if (!new)
-		new = ft_strnew(1);
-	if (BUFF_SIZE < 0 || !line || fd > MAX_SIZE_FD || fd < 0)
+	if (!line || BUFF_SIZE <= 0 || fd < 0 || (ans = read(fd, "", 0)) < 0)
 		return (-1);
-	ret = 2;
-	while (!(ft_strchr(new, '\n')))
+	current = find_fd(fd, &data);
+	if (!(ft_strchr(current->data, '\n')))
 	{
-		ret = read(fd, buff, BUFF_SIZE);
-		if (ret == -1)
+		ans = fd_read_in(fd, current);
+		if (ans < 0)
 			return (-1);
-		buff[ret] = '\0';
-		new = ft_strjoin(new, buff);
-		if (ret == 0 && *new == '\0')
+		if (ans == 0)
 			return (0);
-		if (ret == 0)
-			break ;
 	}
-	*line = ft_stock_the_new_line(new);
-	new = ft_clean_new(new);
-	return (1);
+	return (populate_line(current, line) > 0 ? 1 : 0);
 }
